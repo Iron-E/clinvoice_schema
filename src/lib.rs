@@ -14,6 +14,8 @@
 //! * Elements of the [`clinvoice_finance`] which are required to instantiate data (e.g. [`Money`]).
 //! * The entire [`chrono`] crate, as almost all of it is required to instantiate certain data.
 
+#![warn(missing_docs)]
+
 mod contact;
 mod employee;
 mod expense;
