@@ -1,6 +1,6 @@
 mod display;
 
-#[cfg(feature = "serde_support")]
+#[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
 use crate::Location;
@@ -10,7 +10,7 @@ use crate::Location;
 /// (namely, [`ContactKind::Email`] and [`ContactKind::Phone`]) can be minimally verified before
 /// insertion into a database which helps prevent user error.
 #[cfg_attr(
-	feature = "serde_support",
+	feature = "serde",
 	derive(Deserialize, Serialize),
 	serde(rename_all = "snake_case")
 )]

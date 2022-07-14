@@ -5,7 +5,7 @@
 //!
 //! # Features
 //!
-//! * `serde_support` adds support for the [`serde`] crate.
+//! * `serde` adds support for the [`serde`] crate.
 //!
 //! # Re-exports
 //!

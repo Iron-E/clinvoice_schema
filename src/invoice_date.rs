@@ -1,7 +1,7 @@
 mod display;
 
 use chrono::{DateTime, Utc};
-#[cfg(feature = "serde_support")]
+#[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
 /// Represents the dates which an [`Invoice`][invoice] was sent to or paid by a client.
@@ -18,7 +18,7 @@ use serde::{Deserialize, Serialize};
 /// outside of the constraint system of a database.
 ///
 /// [invoice]: super::Invoice
-#[cfg_attr(feature = "serde_support", derive(Deserialize, Serialize))]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 #[derive(Copy, Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct InvoiceDate
 {

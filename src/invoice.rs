@@ -2,13 +2,13 @@ mod display;
 mod exchangeable;
 
 use clinvoice_finance::Money;
-#[cfg(feature = "serde_support")]
+#[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
 use super::InvoiceDate;
 
 /// Information about payment for the completion of a [`Job`](super::Job).
-#[cfg_attr(feature = "serde_support", derive(Deserialize, Serialize))]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 #[derive(Copy, Clone, Debug, Default, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct Invoice
 {
