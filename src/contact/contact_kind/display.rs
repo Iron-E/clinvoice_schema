@@ -8,8 +8,8 @@ impl Display for ContactKind
 	{
 		match self
 		{
-			Self::Address(ref location) => location.fmt(formatter),
-			Self::Email(ref s) | Self::Other(ref s) | Self::Phone(ref s) => s.fmt(formatter),
+			Self::Address(location) => location.fmt(formatter),
+			Self::Email(s) | Self::Other(s) | Self::Phone(s) => s.fmt(formatter),
 		}
 	}
 }
