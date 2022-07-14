@@ -103,37 +103,37 @@ impl Timesheet
 			.iter()
 			.filter(|timesheet| timesheet.time_end.is_some())
 			.for_each(|timesheet| {
-				total.amount += (Decimal::from(
-					timesheet
-						.time_end
-						.expect("Filters should have assured that `Timesheet`s have an end time")
-						.signed_duration_since(timesheet.time_begin)
-						.num_seconds(),
-				) / *SECONDS_PER_HOUR) *
-					hourly_rate.amount;
+				total.amount += hourly_rate.amount *
+					(Decimal::from(
+						timesheet
+							.time_end
+							.expect("Filters should have assured that `Timesheet`s have an end time")
+							.signed_duration_since(timesheet.time_begin)
+							.num_seconds(),
+					) / *SECONDS_PER_HOUR);
 
 				timesheet.expenses.iter().for_each(|expense| {
-					total.amount += if expense.cost.currency == total.currency
+					total.amount += match expense.cost.currency == total.currency
 					{
-						expense.cost.amount
+						true => expense.cost.amount,
+						_ =>
+						{
+							expense
+								.cost
+								.exchange(
+									total.currency,
+									exchange_rates.unwrap_or_else(|| {
+										panic!(
+											"Must do currency conversion from {} to {}, but the exchange \
+											 rates were not provided.",
+											expense.cost.currency, total.currency
+										)
+									}),
+								)
+								.amount
+						},
 					}
-					else
-					{
-						expense
-							.cost
-							.exchange(
-								total.currency,
-								exchange_rates.unwrap_or_else(|| {
-									panic!(
-										"Must do currency conversion from {} to {}, but the exchange rates \
-										 were not provided.",
-										expense.cost.currency, total.currency
-									)
-								}),
-							)
-							.amount
-					}
-				});
+				})
 			});
 
 		total.amount.rescale(2);
