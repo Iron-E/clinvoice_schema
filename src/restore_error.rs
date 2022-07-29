@@ -1,3 +1,5 @@
+#![allow(clippy::std_instead_of_core)]
+
 use thiserror::Error;
 
 /// An [`Error`](std::error::Error) for when [`try_restore`](super::RestorableSerde::try_restore)

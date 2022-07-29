@@ -8,14 +8,20 @@ impl Display for Timesheet
 {
 	fn fmt(&self, formatter: &mut Formatter) -> Result
 	{
+		/// One indent in, with a newline.
+		const NEWLINE_INDENT: &str = "\n\t";
+
+		/// Two indents in, with a newline.
+		const NEWLINE_TWO_INDENTS: &str = "\n\t\t";
+
 		writeln!(
 			formatter,
 			"{} – {}",
 			DateTime::<Local>::from(self.time_begin).naive_local(),
-			self
-				.time_end
-				.map(|time| DateTime::<Local>::from(time).naive_local().to_string())
-				.unwrap_or_else(|| "Current".into()),
+			self.time_end.map_or_else(
+				|| "Current".into(),
+				|time| DateTime::<Local>::from(time).naive_local().to_string(),
+			),
 		)?;
 
 		write!(
@@ -23,9 +29,6 @@ impl Display for Timesheet
 			"\t- Employee: {} {}",
 			self.employee.title, self.employee.name
 		)?;
-
-		const NEWLINE_INDENT: &str = "\n\t";
-		const NEWLINE_TWO_INDENTS: &str = "\n\t\t";
 
 		if !self.expenses.is_empty()
 		{

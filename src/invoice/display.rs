@@ -14,8 +14,7 @@ impl Display for Invoice
 			self
 				.date
 				.as_ref()
-				.map(InvoiceDate::to_string)
-				.unwrap_or_else(|| "Not issued".into())
+				.map_or_else(|| "Not issued".into(), InvoiceDate::to_string),
 		)
 	}
 }

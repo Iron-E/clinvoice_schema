@@ -49,7 +49,7 @@ pub enum ContactKind
 impl ContactKind
 {
 	/// If this is a [`ContactKind::Address`], return the inner [`Location`] value as [`Some`]. Otherwise, return [`None`].
-	pub fn address(&self) -> Option<&Location>
+	pub const fn address(&self) -> Option<&Location>
 	{
 		match self
 		{

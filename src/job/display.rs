@@ -8,6 +8,12 @@ impl Display for Job
 {
 	fn fmt(&self, formatter: &mut Formatter) -> Result
 	{
+		/// One indent in, with a newline.
+		const NEWLINE_INDENT: &str = "\n\t";
+
+		/// Two indents in, with a newline.
+		const NEWLINE_TWO_INDENTS: &str = "\n\t\t";
+
 		write!(
 			formatter,
 			"Job №{} for {}: {} – ",
@@ -21,12 +27,6 @@ impl Display for Job
 			Some(date) => writeln!(formatter, "{}", DateTime::<Local>::from(date).naive_local()),
 			_ => writeln!(formatter, "Current"),
 		}?;
-
-		/// One indent in, with a newline.
-		const NEWLINE_INDENT: &str = "\n\t";
-
-		/// Two indents in, with a newline.
-		const NEWLINE_TWO_INDENTS: &str = "\n\t\t";
 
 		// NOTE: we use `write` from here on out because it isn't certain which call will be the last
 

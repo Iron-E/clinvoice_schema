@@ -6,7 +6,7 @@ impl Default for Timesheet
 {
 	fn default() -> Self
 	{
-		Timesheet {
+		Self {
 			id: Default::default(),
 			employee: Default::default(),
 			expenses: Default::default(),
