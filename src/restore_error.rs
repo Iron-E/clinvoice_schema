@@ -9,4 +9,4 @@ use thiserror::Error;
 pub struct RestoreError;
 
 /// A [`Result`] with [`Err`] equal to [`RestoreError`].
-pub type RestoreResult<T> = std::result::Result<T, RestoreError>;
+pub type RestoreResult<T> = core::result::Result<T, RestoreError>;
