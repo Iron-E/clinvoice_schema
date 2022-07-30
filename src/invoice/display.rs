@@ -23,7 +23,7 @@ impl Display for Invoice
 mod tests
 {
 	use chrono::{DateTime, Local, Utc};
-	use clinvoice_finance::{Currency, Money};
+	use money2::{Currency, Money};
 	use pretty_assertions::assert_eq;
 
 	use super::Invoice;

@@ -4,8 +4,8 @@ mod exchangeable;
 mod restorable_serde;
 
 use chrono::{DateTime, Utc};
-use clinvoice_finance::{Decimal, ExchangeRates, Exchangeable, Money};
 use lazy_static::lazy_static;
+use money2::{Decimal, ExchangeRates, Exchangeable, Money};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 

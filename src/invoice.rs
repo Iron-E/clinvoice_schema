@@ -1,7 +1,7 @@
 mod display;
 mod exchangeable;
 
-use clinvoice_finance::Money;
+use money2::Money;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 

@@ -64,7 +64,7 @@ mod tests
 	use core::time::Duration;
 
 	use chrono::Utc;
-	use clinvoice_finance::{Currency, Money};
+	use money2::{Currency, Money};
 	use pretty_assertions::assert_eq;
 
 	use super::{DateTime, Job, Local};

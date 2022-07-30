@@ -18,7 +18,7 @@ impl Display for Expense
 #[cfg(test)]
 mod tests
 {
-	use clinvoice_finance::{Currency, Money};
+	use money2::{Currency, Money};
 	use pretty_assertions::assert_eq;
 
 	use super::Expense;
