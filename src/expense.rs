@@ -1,5 +1,5 @@
 mod display;
-mod exchangeable;
+mod exchange;
 mod restorable_serde;
 
 use money2::Money;

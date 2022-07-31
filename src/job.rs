@@ -1,6 +1,6 @@
 mod default;
 mod display;
-mod exchangeable;
+mod exchange;
 mod restorable_serde;
 
 use core::time::Duration;

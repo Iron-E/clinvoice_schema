@@ -1,11 +1,11 @@
 mod default;
 mod display;
-mod exchangeable;
+mod exchange;
 mod restorable_serde;
 
 use chrono::{DateTime, Utc};
 use lazy_static::lazy_static;
-use money2::{Decimal, ExchangeRates, Exchangeable, Money};
+use money2::{Decimal, Exchange, ExchangeRates, Money};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 

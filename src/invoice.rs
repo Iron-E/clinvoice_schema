@@ -1,5 +1,5 @@
 mod display;
-mod exchangeable;
+mod exchange;
 
 use money2::Money;
 #[cfg(feature = "serde")]
