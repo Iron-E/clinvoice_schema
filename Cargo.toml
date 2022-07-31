@@ -15,7 +15,7 @@ chrono = {features = ["serde"], version = "0.4"}
 futures = "0.3"
 humantime-serde = "1"
 lazy_static = "1"
-money2 = {branch = 'release/0.6', git = 'https://github.com/Iron-E/money'}
+money2 = "0.6"
 serde = {optional = true, version = "1"}
 thiserror = "1"
 
