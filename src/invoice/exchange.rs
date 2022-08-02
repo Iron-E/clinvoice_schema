@@ -4,26 +4,8 @@ use super::Invoice;
 
 impl Exchange for Invoice
 {
-	type Output = Self;
-
-	fn exchange(self, currency: Currency, rates: &ExchangeRates) -> Self::Output
+	fn exchange_mut(&mut self, currency: Currency, rates: &ExchangeRates)
 	{
-		Self {
-			hourly_rate: self.hourly_rate.exchange(currency, rates),
-			..self
-		}
-	}
-}
-
-impl Exchange for &Invoice
-{
-	type Output = Invoice;
-
-	fn exchange(self, currency: Currency, rates: &ExchangeRates) -> Self::Output
-	{
-		Self::Output {
-			date: self.date,
-			hourly_rate: self.hourly_rate.exchange(currency, rates),
-		}
+		self.hourly_rate = self.hourly_rate.exchange(currency, rates);
 	}
 }
