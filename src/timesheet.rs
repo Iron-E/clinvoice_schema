@@ -5,7 +5,7 @@ mod restorable_serde;
 
 use chrono::{DateTime, Utc};
 use lazy_static::lazy_static;
-use money2::{Decimal, Exchange, ExchangeRates, Money};
+use money2::{Decimal, Money};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
@@ -85,42 +85,47 @@ impl Timesheet
 	/// ];
 	///
 	/// assert_eq!(
-	///   Timesheet::total_all(&timesheets, None, Money::new(20_00, 2, Currency::Usd)),
-	///   Money::new(4000, 2, Currency::Usd),
+	///   Timesheet::total_all(&timesheets, Money::new(20_00, 2, Currency::Usd)),
+	///   Some(Money::new(4000, 2, Currency::Usd)),
+	/// );
+	///
+	/// assert_eq!(
+	///   Timesheet::total_all(&timesheets, Money::new(20_00, 2, Currency::Eur)),
+	///   None,
 	/// );
 	/// ```
-	pub fn total_all(timesheets: &[Self], hourly_rate: Money) -> Money
+	pub fn total_all(timesheets: &[Self], hourly_rate: Money) -> Option<Money>
 	{
 		lazy_static! {
 			static ref SECONDS_PER_HOUR: Decimal = 3600.into();
 		}
 
-		let mut total = Money::new(0, 2, hourly_rate.currency);
-		timesheets.iter().filter(|timesheet| timesheet.time_end.is_some()).for_each(|timesheet| {
-			total.amount += hourly_rate.amount *
-				(Decimal::from(
-					timesheet
-						.time_end
-						.expect("Filters should have assured that `Timesheet`s have an end time")
-						.signed_duration_since(timesheet.time_begin)
-						.num_seconds(),
-				) / *SECONDS_PER_HOUR);
+		let mut checked_total = timesheets
+			.iter()
+			.filter(|timesheet| timesheet.time_end.is_some())
+			.try_fold(Money::new(0, 0, hourly_rate.currency), |mut total, timesheet| {
+				total.amount += hourly_rate.amount *
+					(Decimal::from(
+						timesheet
+							.time_end
+							.expect(
+								"Filters should have assured that `Timesheet`s have an end time",
+							)
+							.signed_duration_since(timesheet.time_begin)
+							.num_seconds(),
+					) / *SECONDS_PER_HOUR);
 
-			timesheet.expenses.iter().for_each(|expense| {
-				if expense.cost.currency != total.currency
-				{
-					#[rustfmt::skip]
-						panic!(
-							"Must do currency conversion from {} to {}, but the exchange rates were not provided.",
-							expense.cost.currency, total.currency,
-						);
-				}
+				timesheet
+					.expenses
+					.iter()
+					.try_fold(total, |total, expense| total.checked_add(expense.cost))
+			});
 
-				total.amount += expense.cost.amount;
-			})
-		});
+		if let Some(total) = &mut checked_total
+		{
+			total.amount.rescale(2);
+		}
 
-		total.amount.rescale(2);
-		total
+		checked_total
 	}
 }
