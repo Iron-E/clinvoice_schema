@@ -28,7 +28,8 @@ impl Display for Job
 			_ => writeln!(formatter, "Current"),
 		}?;
 
-		// NOTE: we use `write` from here on out because it isn't certain which call will be the last
+		// NOTE: we use `write` from here on out because it isn't certain which call will be the
+		// last
 
 		write!(
 			formatter,
@@ -73,11 +74,7 @@ mod tests
 	#[test]
 	fn display()
 	{
-		let earth_view = Location {
-			id: 0,
-			name: "Earth".into(),
-			outer: None,
-		};
+		let earth_view = Location { id: 0, name: "Earth".into(), outer: None };
 
 		let create_job_view = Job {
 			client: Organization {
@@ -89,10 +86,7 @@ mod tests
 			date_open: Utc::now(),
 			id: 0,
 			increment: Duration::from_secs(900),
-			invoice: Invoice {
-				date: None,
-				hourly_rate: Money::new(20_00, 2, Currency::Usd),
-			},
+			invoice: Invoice { date: None, hourly_rate: Money::new(20_00, 2, Currency::Usd) },
 			notes: "Remember not to work with these guys again!".into(),
 			objectives: "Get into the mainframe, or something like that.\nClean the drawer.".into(),
 		};

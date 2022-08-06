@@ -29,39 +29,22 @@ mod tests
 	#[test]
 	fn display()
 	{
-		let earth_view = Location {
-			id: 0,
-			name: "Earth".into(),
-			outer: None,
-		};
+		let earth_view = Location { id: 0, name: "Earth".into(), outer: None };
 
-		let usa_view = Location {
-			id: 0,
-			name: "USA".into(),
-			outer: Some(earth_view.into()),
-		};
+		let usa_view = Location { id: 0, name: "USA".into(), outer: Some(earth_view.into()) };
 
-		let arizona_view = Location {
-			id: 0,
-			name: "Arizona".into(),
-			outer: Some(usa_view.into()),
-		};
+		let arizona_view =
+			Location { id: 0, name: "Arizona".into(), outer: Some(usa_view.into()) };
 
-		let phoenix_view = Location {
-			id: 0,
-			name: "Phoenix".into(),
-			outer: Some(arizona_view.into()),
-		};
+		let phoenix_view =
+			Location { id: 0, name: "Phoenix".into(), outer: Some(arizona_view.into()) };
 
 		let street_view = Location {
-			id: 0,
-			name: "1337 Some Street".into(),
+			id:    0,
+			name:  "1337 Some Street".into(),
 			outer: Some(phoenix_view.into()),
 		};
 
-		assert_eq!(
-			street_view.to_string(),
-			"1337 Some Street, Phoenix, Arizona, USA, Earth"
-		);
+		assert_eq!(street_view.to_string(), "1337 Some Street, Phoenix, Arizona, USA, Earth");
 	}
 }

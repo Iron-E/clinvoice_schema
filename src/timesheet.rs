@@ -29,7 +29,8 @@ pub struct Timesheet
 	/// work, they should create separate [`Timesheet`]s.
 	pub employee: Employee,
 
-	/// Business-related, non-[hourly-rate](super::Invoice)-related [`Expense`]s which were incurred during this time.
+	/// Business-related, non-[hourly-rate](super::Invoice)-related [`Expense`]s which were
+	/// incurred during this time.
 	pub expenses: Vec<Expense>,
 
 	/// The [`Job`] which was worked on.
@@ -88,53 +89,36 @@ impl Timesheet
 	///   Money::new(4000, 2, Currency::Usd),
 	/// );
 	/// ```
-	pub fn total_all(
-		timesheets: &[Self],
-		exchange_rates: Option<&ExchangeRates>,
-		hourly_rate: Money,
-	) -> Money
+	pub fn total_all(timesheets: &[Self], hourly_rate: Money) -> Money
 	{
 		lazy_static! {
 			static ref SECONDS_PER_HOUR: Decimal = 3600.into();
 		}
 
 		let mut total = Money::new(0, 2, hourly_rate.currency);
-		timesheets
-			.iter()
-			.filter(|timesheet| timesheet.time_end.is_some())
-			.for_each(|timesheet| {
-				total.amount += hourly_rate.amount *
-					(Decimal::from(
-						timesheet
-							.time_end
-							.expect("Filters should have assured that `Timesheet`s have an end time")
-							.signed_duration_since(timesheet.time_begin)
-							.num_seconds(),
-					) / *SECONDS_PER_HOUR);
+		timesheets.iter().filter(|timesheet| timesheet.time_end.is_some()).for_each(|timesheet| {
+			total.amount += hourly_rate.amount *
+				(Decimal::from(
+					timesheet
+						.time_end
+						.expect("Filters should have assured that `Timesheet`s have an end time")
+						.signed_duration_since(timesheet.time_begin)
+						.num_seconds(),
+				) / *SECONDS_PER_HOUR);
 
-				timesheet.expenses.iter().for_each(|expense| {
-					total.amount += match expense.cost.currency == total.currency
-					{
-						true => expense.cost.amount,
-						_ =>
-						{
-							expense
-								.cost
-								.exchange(
-									total.currency,
-									exchange_rates.unwrap_or_else(|| {
-										panic!(
-											"Must do currency conversion from {} to {}, but the exchange \
-											 rates were not provided.",
-											expense.cost.currency, total.currency
-										)
-									}),
-								)
-								.amount
-						},
-					}
-				})
-			});
+			timesheet.expenses.iter().for_each(|expense| {
+				if expense.cost.currency != total.currency
+				{
+					#[rustfmt::skip]
+						panic!(
+							"Must do currency conversion from {} to {}, but the exchange rates were not provided.",
+							expense.cost.currency, total.currency,
+						);
+				}
+
+				total.amount += expense.cost.amount;
+			})
+		});
 
 		total.amount.rescale(2);
 		total

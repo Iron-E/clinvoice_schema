@@ -11,10 +11,7 @@ impl Display for Invoice
 		write!(
 			formatter,
 			"Status: {}",
-			self
-				.date
-				.as_ref()
-				.map_or_else(|| "Not issued".into(), InvoiceDate::to_string),
+			self.date.as_ref().map_or_else(|| "Not issued".into(), InvoiceDate::to_string),
 		)
 	}
 }
@@ -33,10 +30,7 @@ mod tests
 	fn display()
 	{
 		let invoice = Invoice {
-			date: Some(InvoiceDate {
-				issued: Utc::now(),
-				paid: None,
-			}),
+			date: Some(InvoiceDate { issued: Utc::now(), paid: None }),
 			hourly_rate: Money::new(10_00, 2, Currency::Usd),
 		};
 

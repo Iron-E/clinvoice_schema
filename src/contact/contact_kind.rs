@@ -9,11 +9,7 @@ use crate::Location;
 /// (i.e. the `label`), but all of the rest is variable. Further, certain types of [`String`] data
 /// (namely, [`ContactKind::Email`] and [`ContactKind::Phone`]) can be minimally verified before
 /// insertion into a database which helps prevent user error.
-#[cfg_attr(
-	feature = "serde",
-	derive(Deserialize, Serialize),
-	serde(rename_all = "snake_case")
-)]
+#[cfg_attr(feature = "serde", derive(Deserialize, Serialize), serde(rename_all = "snake_case"))]
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub enum ContactKind
 {
@@ -26,13 +22,13 @@ pub enum ContactKind
 	/// Any kind of information which is not covered by another [`ContactKind`] variant, for
 	/// example:
 	///
-	/// * A username for a social media platform (e.g. [Twitter](https://www.twitter.com)) or
-	///   monetary transfer service (e.g. [PayPal](https://www.paypal.com)).
+	/// * A username for a social media platform (e.g. [Twitter](https://www.twitter.com)) or monetary
+	///   transfer service (e.g. [PayPal](https://www.paypal.com)).
 	/// * A bank account number.
 	/// * A crypto wallet.
 	///
-	/// One should not attempt to verify or constrain this data, as it is impossible to tell what it
-	/// might be.
+	/// One should not attempt to verify or constrain this data, as it is impossible to tell what
+	/// it might be.
 	Other(String),
 
 	/// A phone number, with or without country code. The following should be treated as valid:
@@ -48,7 +44,8 @@ pub enum ContactKind
 
 impl ContactKind
 {
-	/// If this is a [`ContactKind::Address`], return the inner [`Location`] value as [`Some`]. Otherwise, return [`None`].
+	/// If this is a [`ContactKind::Address`], return the inner [`Location`] value as [`Some`].
+	/// Otherwise, return [`None`].
 	pub const fn address(&self) -> Option<&Location>
 	{
 		match self
@@ -58,7 +55,8 @@ impl ContactKind
 		}
 	}
 
-	/// If this is a [`ContactKind::Email`], return the inner [`str`] value as [`Some`]. Otherwise, return [`None`].
+	/// If this is a [`ContactKind::Email`], return the inner [`str`] value as [`Some`]. Otherwise,
+	/// return [`None`].
 	pub fn email(&self) -> Option<&str>
 	{
 		match self
@@ -68,7 +66,8 @@ impl ContactKind
 		}
 	}
 
-	/// If this is a [`ContactKind::Phone`], return the inner [`str`] value as [`Some`]. Otherwise, return [`None`].
+	/// If this is a [`ContactKind::Phone`], return the inner [`str`] value as [`Some`]. Otherwise,
+	/// return [`None`].
 	pub fn phone(&self) -> Option<&str>
 	{
 		match self
@@ -78,7 +77,8 @@ impl ContactKind
 		}
 	}
 
-	/// If this is a [`ContactKind::Other`], return the inner [`str`] value as [`Some`]. Otherwise, return [`None`].
+	/// If this is a [`ContactKind::Other`], return the inner [`str`] value as [`Some`]. Otherwise,
+	/// return [`None`].
 	pub fn other(&self) -> Option<&str>
 	{
 		match self

@@ -22,10 +22,10 @@ mod tests
 	fn display()
 	{
 		let employee = Employee {
-			id: 0,
-			name: "Testy McTesterson".into(),
+			id:     0,
+			name:   "Testy McTesterson".into(),
 			status: "Representative".into(),
-			title: "CEO of Tests".into(),
+			title:  "CEO of Tests".into(),
 		};
 
 		assert_eq!(

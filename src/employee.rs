@@ -9,8 +9,9 @@ use super::Id;
 /// A person who has been employed by the [`Organization`][organization] which uses
 /// CLInvoice.
 ///
-/// The [`Organization`][organization] that the [`Employee`] works for is not stored in the entity, as the
-/// [`Organization`][organization] using CLInvoice is configured elsewhere and referenced as necessary.
+/// The [`Organization`][organization] that the [`Employee`] works for is not stored in the entity,
+/// as the [`Organization`][organization] using CLInvoice is configured elsewhere and referenced as
+/// necessary.
 ///
 /// [organization]: super::Organization
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
@@ -29,7 +30,8 @@ pub struct Employee
 	/// The operating status of the [`Employee`] within their [`Organization`][organization].
 	///
 	/// Setting this field to "Not employed", or "Ex-employee" is a viable way to archive
-	/// an [`Employee`], while noting that they are no longer with the [`Organization`][organization].
+	/// an [`Employee`], while noting that they are no longer with the
+	/// [`Organization`][organization].
 	///
 	/// [organization]: super::Organization
 	pub status: String,

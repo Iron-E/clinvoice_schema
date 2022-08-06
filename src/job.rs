@@ -29,8 +29,8 @@ pub struct Job
 	/// [`Job`], or [`None`] if this [`Job`] is still being worked on.
 	pub date_close: Option<DateTime<Utc>>,
 
-	/// The [date](DateTime) upon which the [`Organization`] received the `client`'s request for the
-	/// work.
+	/// The [date](DateTime) upon which the [`Organization`] received the `client`'s request for
+	/// the work.
 	pub date_open: DateTime<Utc>,
 
 	/// The reference number of this [`Job`], which is unique among all [`Job`]s.
@@ -39,8 +39,8 @@ pub struct Job
 	#[cfg_attr(feature = "serde", serde(skip))]
 	pub id: Id,
 
-	/// The amount of time between updates to the `time_start` and `time_end` on a [`Timesheet`]. For
-	/// example, if `increment` is 15m:
+	/// The amount of time between updates to the `time_start` and `time_end` on a [`Timesheet`].
+	/// For example, if `increment` is 15m:
 	///
 	/// * A real `time_start` 11:14 is rounded to 12:15.
 	/// * A real `time_end` 13:34 is set to 13:30.
@@ -51,7 +51,8 @@ pub struct Job
 	pub invoice: Invoice,
 
 	/// Important things to know about the work that has been performed, which are useful for both
-	/// summarizing the events of working on a [`Job`], or leaving reminders for when refering back.
+	/// summarizing the events of working on a [`Job`], or leaving reminders for when refering
+	/// back.
 	///
 	/// Markup support (if any) is dependent on the CLInvoice frontend.
 	pub notes: String,

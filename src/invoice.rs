@@ -12,8 +12,8 @@ use super::InvoiceDate;
 #[derive(Copy, Clone, Debug, Default, Eq, Hash, Ord, PartialEq, PartialOrd)]
 pub struct Invoice
 {
-	/// The date which the [`Invoice`] was sent to and/or paid by the [`Job`](super::Job)'s `client`, or
-	/// [`None`] if the [`Invoice`] has not been sent yet.
+	/// The date which the [`Invoice`] was sent to and/or paid by the [`Job`](super::Job)'s
+	/// `client`, or [`None`] if the [`Invoice`] has not been sent yet.
 	pub date: Option<InvoiceDate>,
 
 	/// The amount of money to be charged for one hour of work. If the amount charged is on a

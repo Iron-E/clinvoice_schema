@@ -8,11 +8,7 @@ impl Display for InvoiceDate
 {
 	fn fmt(&self, formatter: &mut Formatter) -> Result
 	{
-		write!(
-			formatter,
-			"Issued on {}; ",
-			DateTime::<Local>::from(self.issued)
-		)?;
+		write!(formatter, "Issued on {}; ", DateTime::<Local>::from(self.issued))?;
 
 		if let Some(date) = self.paid
 		{
@@ -34,22 +30,13 @@ mod tests
 	#[test]
 	fn display()
 	{
-		let date = InvoiceDate {
-			issued: Utc::now(),
-			paid: None,
-		};
+		let date = InvoiceDate { issued: Utc::now(), paid: None };
 
-		let other_date = InvoiceDate {
-			issued: Utc::now(),
-			paid: Some(Utc::now()),
-		};
+		let other_date = InvoiceDate { issued: Utc::now(), paid: Some(Utc::now()) };
 
 		assert_eq!(
 			date.to_string(),
-			format!(
-				"Issued on {}; Outstanding",
-				DateTime::<Local>::from(date.issued),
-			)
+			format!("Issued on {}; Outstanding", DateTime::<Local>::from(date.issued),)
 		);
 		assert_eq!(
 			other_date.to_string(),

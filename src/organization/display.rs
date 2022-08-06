@@ -26,20 +26,13 @@ mod tests
 		let organization = Organization {
 			id: 0,
 			location: Location {
-				id: 0,
-				name: "Arizona".into(),
+				id:    0,
+				name:  "Arizona".into(),
 				outer: Some(
 					Location {
-						id: 0,
-						name: "USA".into(),
-						outer: Some(
-							Location {
-								id: 0,
-								name: "Earth".into(),
-								outer: None,
-							}
-							.into(),
-						),
+						id:    0,
+						name:  "USA".into(),
+						outer: Some(Location { id: 0, name: "Earth".into(), outer: None }.into()),
 					}
 					.into(),
 				),
@@ -47,9 +40,6 @@ mod tests
 			name: "Big Old Test".into(),
 		};
 
-		assert_eq!(
-			organization.to_string(),
-			"Big Old Test @ Arizona, USA, Earth"
-		);
+		assert_eq!(organization.to_string(), "Big Old Test @ Arizona, USA, Earth");
 	}
 }
