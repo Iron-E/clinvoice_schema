@@ -59,7 +59,7 @@ impl Timesheet
 	///
 	/// # Panics
 	///
-	/// When a [`Money`] must be exchanged, but the `exchange_rates` are not provided.
+	/// When [`Money::add_assign`] does.
 	///
 	/// # Examples
 	///
@@ -86,46 +86,53 @@ impl Timesheet
 	///
 	/// assert_eq!(
 	///   Timesheet::total_all(&timesheets, Money::new(20_00, 2, Currency::Usd)),
-	///   Some(Money::new(4000, 2, Currency::Usd)),
-	/// );
-	///
-	/// assert_eq!(
-	///   Timesheet::total_all(&timesheets, Money::new(20_00, 2, Currency::Eur)),
-	///   None,
+	///   Money::new(4000, 2, Currency::Usd),
 	/// );
 	/// ```
-	pub fn total_all(timesheets: &[Self], hourly_rate: Money) -> Option<Money>
+	///
+	/// ```rust,should_panic
+	/// # use clinvoice_schema::{chrono::Utc, Currency, Expense, Money, Timesheet};
+	/// # use pretty_assertions::assert_eq;
+	/// #
+	/// # let timesheets = [
+	/// #   Timesheet {
+	/// #     time_begin: Utc::today().and_hms(2, 0, 0),
+	/// #     time_end: Some(Utc::today().and_hms(2, 30, 0)),
+	/// #     ..Default::default()
+	/// #   },
+	/// #   Timesheet {
+	/// #     expenses: vec![Expense {
+	/// #       cost: Money::new(20_00, 2, Currency::Usd),
+	/// #       ..Default::default()
+	/// #     }],
+	/// #     time_begin: Utc::today().and_hms(3, 0, 0),
+	/// #     time_end: Some(Utc::today().and_hms(3, 30, 0)),
+	/// #     ..Default::default()
+	/// #   },
+	/// # ];
+	/// let _ = Timesheet::total_all(&timesheets, Money::new(20_00, 2, Currency::Eur));
+	/// ```
+	pub fn total_all(timesheets: &[Self], hourly_rate: Money) -> Money
 	{
 		lazy_static! {
 			static ref SECONDS_PER_HOUR: Decimal = 3600.into();
 		}
 
-		let mut checked_total = timesheets
-			.iter()
-			.filter(|timesheet| timesheet.time_end.is_some())
-			.try_fold(Money::new(0, 0, hourly_rate.currency), |mut total, timesheet| {
-				total.amount += hourly_rate.amount *
-					(Decimal::from(
-						timesheet
-							.time_end
-							.expect(
-								"Filters should have assured that `Timesheet`s have an end time",
-							)
-							.signed_duration_since(timesheet.time_begin)
-							.num_seconds(),
-					) / *SECONDS_PER_HOUR);
+		let mut total = Money::new(0, 0, hourly_rate.currency);
+		timesheets.iter().filter(|timesheet| timesheet.time_end.is_some()).for_each(|timesheet| {
+			total.amount += hourly_rate.amount *
+				(Decimal::from(
+					timesheet
+						.time_end
+						.expect("Filters should have assured that `Timesheet`s have an end time")
+						.signed_duration_since(timesheet.time_begin)
+						.num_seconds(),
+				) / *SECONDS_PER_HOUR);
 
-				timesheet
-					.expenses
-					.iter()
-					.try_fold(total, |total, expense| total.checked_add(expense.cost))
-			});
+			timesheet.expenses.iter().for_each(|expense| total += expense.cost);
+		});
 
-		if let Some(total) = &mut checked_total
-		{
-			total.amount.rescale(2);
-		}
-
-		checked_total
+		total.amount.rescale(2);
+		total
 	}
 }
