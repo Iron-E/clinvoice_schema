@@ -25,17 +25,13 @@ mod tests
 
 		let usa_view = Location { id: 0, name: "USA".into(), outer: Some(earth_view.into()) };
 
-		let arizona_view =
-			Location { id: 0, name: "Arizona".into(), outer: Some(usa_view.into()) };
+		let arizona_view = Location { id: 0, name: "Arizona".into(), outer: Some(usa_view.into()) };
 
 		let phoenix_view =
 			Location { id: 0, name: "Phoenix".into(), outer: Some(arizona_view.into()) };
 
-		let street_view = Location {
-			id:    0,
-			name:  "1337 Some Street".into(),
-			outer: Some(phoenix_view.into()),
-		};
+		let street_view =
+			Location { id: 0, name: "1337 Some Street".into(), outer: Some(phoenix_view.into()) };
 
 		assert_eq!(
 			Contact { kind: ContactKind::Address(street_view), label: "Office".into() }.to_string(),
@@ -48,7 +44,7 @@ mod tests
 		);
 		assert_eq!(
 			Contact {
-				kind:  ContactKind::Phone("1-603-555-5555".into()),
+				kind: ContactKind::Phone("1-603-555-5555".into()),
 				label: "Cellphone".into(),
 			}
 			.to_string(),

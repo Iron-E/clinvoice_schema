@@ -70,17 +70,13 @@ mod tests
 
 		let usa_view = Location { id: 0, name: "USA".into(), outer: Some(earth_view.into()) };
 
-		let arizona_view =
-			Location { id: 0, name: "Arizona".into(), outer: Some(usa_view.into()) };
+		let arizona_view = Location { id: 0, name: "Arizona".into(), outer: Some(usa_view.into()) };
 
 		let phoenix_view =
 			Location { id: 0, name: "Phoenix".into(), outer: Some(arizona_view.into()) };
 
-		let street_view = Location {
-			id:    0,
-			name:  "1337 Some Street".into(),
-			outer: Some(phoenix_view.into()),
-		};
+		let street_view =
+			Location { id: 0, name: "1337 Some Street".into(), outer: Some(phoenix_view.into()) };
 
 		let timesheet = Timesheet {
 			employee: Employee {

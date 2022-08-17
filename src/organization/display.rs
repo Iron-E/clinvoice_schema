@@ -26,12 +26,12 @@ mod tests
 		let organization = Organization {
 			id: 0,
 			location: Location {
-				id:    0,
-				name:  "Arizona".into(),
+				id: 0,
+				name: "Arizona".into(),
 				outer: Some(
 					Location {
-						id:    0,
-						name:  "USA".into(),
+						id: 0,
+						name: "USA".into(),
 						outer: Some(Location { id: 0, name: "Earth".into(), outer: None }.into()),
 					}
 					.into(),
