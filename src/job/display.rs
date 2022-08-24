@@ -25,7 +25,7 @@ impl Display for Job
 		match self.date_close
 		{
 			Some(date) => writeln!(formatter, "{}", DateTime::<Local>::from(date).naive_local()),
-			_ => writeln!(formatter, "Current"),
+			None => writeln!(formatter, "Current"),
 		}?;
 
 		// NOTE: we use `write` from here on out because it isn't certain which call will be the
