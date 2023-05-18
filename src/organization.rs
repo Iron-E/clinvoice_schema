@@ -12,7 +12,7 @@ use super::{Id, Location};
 /// # Notes
 ///
 /// * An `Organization` can be a person (i.e. self-employement), or an entire business.
-/// * The [`Organization`] which is using CLInvoice must be in the database. The [`Id`] of this
+/// * The [`Organization`] which is using Winvoice must be in the database. The [`Id`] of this
 ///   [`Organization`] is configured elsewhere and retrieved as needed.
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 #[derive(Clone, Debug, Default, Eq, Hash, Ord, PartialEq, PartialOrd)]

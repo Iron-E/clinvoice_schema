@@ -16,7 +16,7 @@ pub trait RestorableSerde
 	/// # Example
 	///
 	/// ```rust
-	/// use clinvoice_schema::{Employee, RestorableSerde};
+	/// use winvoice_schema::{Employee, RestorableSerde};
 	/// # use pretty_assertions::{assert_eq, assert_ne};
 	///
 	/// let original = Employee {

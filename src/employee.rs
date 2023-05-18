@@ -7,10 +7,10 @@ use serde::{Deserialize, Serialize};
 use super::Id;
 
 /// A person who has been employed by the [`Organization`][organization] which uses
-/// CLInvoice.
+/// Winvoice.
 ///
 /// The [`Organization`][organization] that the [`Employee`] works for is not stored in the entity,
-/// as the [`Organization`][organization] using CLInvoice is configured elsewhere and referenced as
+/// as the [`Organization`][organization] using Winvoice is configured elsewhere and referenced as
 /// necessary.
 ///
 /// [organization]: super::Organization

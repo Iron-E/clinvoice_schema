@@ -6,7 +6,7 @@ pub use contact_kind::ContactKind;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
-/// A way that the [`Organization`](super::Organization) which uses CLInvoice can be contacted by
+/// A way that the [`Organization`](super::Organization) which uses Winvoice can be contacted by
 /// another [`Organization`]/entity which has been given an [`Invoice`](super::Invoice)/exported
 /// [`Job`](super::Job) in order to facilitate payment or make a request for further services.
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]

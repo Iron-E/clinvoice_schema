@@ -20,7 +20,7 @@ pub struct Expense
 	pub id: Id,
 
 	/// What broad type of [`Expense`] this is (e.g. "Travel"). Should be formally codified by the
-	/// [`Organization`](super::Organization) using CLInvoice.
+	/// [`Organization`](super::Organization) using Winvoice.
 	pub category: String,
 
 	/// The amount of [`Money`] that this [`Expense`] cost.

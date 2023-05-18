@@ -45,7 +45,7 @@ pub struct Timesheet
 
 	/// A summary of what work was performed.
 	///
-	/// Markup support (if any) is dependent on the CLInvoice frontend.
+	/// Markup support (if any) is dependent on the Winvoice frontend.
 	pub work_notes: String,
 }
 
@@ -64,7 +64,7 @@ impl Timesheet
 	/// # Examples
 	///
 	/// ```rust
-	/// use clinvoice_schema::{chrono::Utc, Currency, Expense, Money, Timesheet};
+	/// use winvoice_schema::{chrono::Utc, Currency, Expense, Money, Timesheet};
 	/// # use pretty_assertions::assert_eq;
 	///
 	/// let timesheets = [
@@ -91,7 +91,7 @@ impl Timesheet
 	/// ```
 	///
 	/// ```rust,should_panic
-	/// # use clinvoice_schema::{chrono::Utc, Currency, Expense, Money, Timesheet};
+	/// # use winvoice_schema::{chrono::Utc, Currency, Expense, Money, Timesheet};
 	/// # use pretty_assertions::assert_eq;
 	/// #
 	/// # let timesheets = [

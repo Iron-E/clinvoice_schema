@@ -22,6 +22,6 @@ pub struct Location
 
 	/// The [`Location`] which immediately surrounds this one, such that when `outer` is [`None`],
 	/// this [`Location`] must be at the outermost scope which is relevant to the
-	/// [`Organization`](super::Organization) using CLInvoice.
+	/// [`Organization`](super::Organization) using Winvoice.
 	pub outer: Option<Box<Self>>,
 }

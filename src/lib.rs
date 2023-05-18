@@ -1,4 +1,4 @@
-//! This crate provides definitions for the information which is managed by CLInvoice. The data is
+//! This crate provides definitions for the information which is managed by Winvoice. The data is
 //! represented as it would be after all `JOIN`s are performed on a database (e.g. an
 //! [`Organization`] in a database would likely reference [`Location`] by [`Id`], rather than
 //! aggregating it).

@@ -16,7 +16,7 @@ use super::{Id, Invoice, Organization};
 /// # Notes
 ///
 /// * It is assumed that the [`Organization`] working on completing the `objective` is the same as
-///   the one using CLInvoice. This is a setting, configured elsewhere and retrieved as needed.
+///   the one using Winvoice. This is a setting, configured elsewhere and retrieved as needed.
 /// * Work which is done for a [`Job`] is tracked by [`Timesheet`]s.
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]
@@ -25,7 +25,7 @@ pub struct Job
 	/// The [`Organization`] who the work is being performed for.
 	pub client: Organization,
 
-	/// The [date](DateTime) which the [`Organization`] using CLInvoice stopped working on the
+	/// The [date](DateTime) which the [`Organization`] using Winvoice stopped working on the
 	/// [`Job`], or [`None`] if this [`Job`] is still being worked on.
 	pub date_close: Option<DateTime<Utc>>,
 
@@ -54,11 +54,11 @@ pub struct Job
 	/// summarizing the events of working on a [`Job`], or leaving reminders for when refering
 	/// back.
 	///
-	/// Markup support (if any) is dependent on the CLInvoice frontend.
+	/// Markup support (if any) is dependent on the Winvoice frontend.
 	pub notes: String,
 
 	/// Desired outcomes as a result of completing work on this [`Job`].
 	///
-	/// Markup support (if any) is dependent on the CLInvoice frontend.
+	/// Markup support (if any) is dependent on the Winvoice frontend.
 	pub objectives: String,
 }
