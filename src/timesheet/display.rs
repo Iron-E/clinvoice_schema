@@ -66,21 +66,28 @@ mod tests
 	#[test]
 	fn display()
 	{
-		let earth_view = Location { id: 0, name: "Earth".into(), outer: None };
+		let earth_view = Location { name: "Earth".into(), ..Default::default() };
 
-		let usa_view = Location { id: 0, name: "USA".into(), outer: Some(earth_view.into()) };
+		let usa_view =
+			Location { name: "USA".into(), outer: Some(earth_view.into()), ..Default::default() };
 
-		let arizona_view = Location { id: 0, name: "Arizona".into(), outer: Some(usa_view.into()) };
+		let arizona_view =
+			Location { name: "Arizona".into(), outer: Some(usa_view.into()), ..Default::default() };
 
-		let phoenix_view =
-			Location { id: 0, name: "Phoenix".into(), outer: Some(arizona_view.into()) };
+		let phoenix_view = Location {
+			name: "Phoenix".into(),
+			outer: Some(arizona_view.into()),
+			..Default::default()
+		};
 
-		let street_view =
-			Location { id: 0, name: "1337 Some Street".into(), outer: Some(phoenix_view.into()) };
+		let street_view = Location {
+			name: "1337 Some Street".into(),
+			outer: Some(phoenix_view.into()),
+			..Default::default()
+		};
 
 		let timesheet = Timesheet {
 			employee: Employee {
-				id: 0,
 				name: "Testy McTesterson".into(),
 				status: "Representative".into(),
 				title: "CEO of Tests".into(),

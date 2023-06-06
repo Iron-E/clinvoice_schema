@@ -74,21 +74,21 @@ mod tests
 	#[test]
 	fn display()
 	{
-		let earth_view = Location { id: 0, name: "Earth".into(), outer: None };
+		let earth_view = Location { name: "Earth".into(), ..Default::default() };
 
 		let create_job_view = Job {
 			client: Organization {
-				id: 0,
 				location: earth_view.clone(),
 				name: "Big Old Test".into(),
+				..Default::default()
 			},
 			date_close: Some(Utc::today().and_hms(23, 59, 59)),
 			date_open: Utc::now(),
-			id: 0,
 			increment: Duration::from_secs(900),
 			invoice: Invoice { date: None, hourly_rate: Money::new(20_00, 2, Currency::Usd) },
 			notes: "Remember not to work with these guys again!".into(),
 			objectives: "Get into the mainframe, or something like that.\nClean the drawer.".into(),
+			..Default::default()
 		};
 
 		assert_eq!(

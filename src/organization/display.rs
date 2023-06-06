@@ -24,20 +24,20 @@ mod tests
 	fn display()
 	{
 		let organization = Organization {
-			id: 0,
 			location: Location {
-				id: 0,
 				name: "Arizona".into(),
 				outer: Some(
 					Location {
-						id: 0,
 						name: "USA".into(),
-						outer: Some(Location { id: 0, name: "Earth".into(), outer: None }.into()),
+						outer: Some(Location { name: "Earth".into(), ..Default::default() }.into()),
+						..Default::default()
 					}
 					.into(),
 				),
+				..Default::default()
 			},
 			name: "Big Old Test".into(),
+			..Default::default()
 		};
 
 		assert_eq!(organization.to_string(), "Big Old Test @ Arizona, USA, Earth");
