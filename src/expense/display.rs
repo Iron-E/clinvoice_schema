@@ -18,12 +18,13 @@ mod tests
 	use pretty_assertions::assert_eq;
 
 	use super::Expense;
+	use crate::Id;
 
 	#[test]
 	fn display()
 	{
 		let expense = Expense {
-			id: 10,
+			id: Id::new_v4(),
 			category: "Food".into(),
 			cost: Money::new(20_00, 2, Currency::Usd),
 			description: "Take-out for 2".into(),
@@ -32,8 +33,11 @@ mod tests
 
 		assert_eq!(
 			expense.to_string(),
-			"№10 – Food (20.00 USD)
+			format!(
+				"№{} – Food (20.00 USD)
 	Take-out for 2",
+				expense.id
+			),
 		);
 	}
 }

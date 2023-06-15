@@ -17,12 +17,13 @@ mod tests
 	use pretty_assertions::assert_eq;
 
 	use super::Employee;
+	use crate::Id;
 
 	#[test]
 	fn display()
 	{
 		let employee = Employee {
-			id: 0,
+			id: Id::default(),
 			name: "Testy McTesterson".into(),
 			status: "Representative".into(),
 			title: "CEO of Tests".into(),

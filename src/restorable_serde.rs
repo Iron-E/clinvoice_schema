@@ -16,11 +16,11 @@ pub trait RestorableSerde
 	/// # Example
 	///
 	/// ```rust
-	/// use winvoice_schema::{Employee, RestorableSerde};
+	/// use winvoice_schema::{Employee, Id, RestorableSerde};
 	/// # use pretty_assertions::{assert_eq, assert_ne};
 	///
 	/// let original = Employee {
-	///   id: 0, // NOTE: you normally want to avoid assigning an arbitrary ID like this
+	///   id: Id::new_v4(), // NOTE: you normally want to avoid assigning an arbitrary ID like this
 	///   name: "Bob".into(),
 	///   status: "Employed".into(),
 	///   title: "CEO".into(),
@@ -28,7 +28,7 @@ pub trait RestorableSerde
 	///
 	/// // Pretend this is deserialized user input…
 	/// let mut edited = Employee {
-	///   id: 3,
+	///   id: Id::new_v4(),
 	///   name: "Bob Buildman".into(),
 	///   ..original.clone()
 	/// };

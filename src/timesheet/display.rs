@@ -61,7 +61,7 @@ mod tests
 	use pretty_assertions::assert_eq;
 
 	use super::{DateTime, Local, Timesheet};
-	use crate::{Employee, Expense, Invoice, Job, Location, Organization};
+	use crate::{Employee, Expense, Id, Invoice, Job, Location, Organization};
 
 	#[test]
 	fn display()
@@ -95,14 +95,14 @@ mod tests
 			},
 			expenses: vec![
 				Expense {
-					id: 405,
+					id: Id::new_v4(),
 					category: "Food".into(),
 					cost: Money::new(20_50, 2, Currency::Usd),
 					description: "Fast Food™".into(),
 					..Default::default()
 				},
 				Expense {
-					id: 901,
+					id: Id::new_v4(),
 					category: "Travel".into(),
 					cost: Money::new(10_00, 2, Currency::Usd),
 					description: "Gas".into(),
@@ -133,14 +133,16 @@ mod tests
 				"{} – {}
 	- Employee: CEO of Tests Testy McTesterson
 	- Expenses:
-		№405 – Food (20.50 USD)
+		№{} – Food (20.50 USD)
 			Fast Food™
-		№901 – Travel (10.00 USD)
+		№{} – Travel (10.00 USD)
 			Gas
 	- Work Notes:
 		Went to non-corporate fast food restaurant for business meeting",
 				DateTime::<Local>::from(timesheet.time_begin).naive_local(),
 				DateTime::<Local>::from(timesheet.time_end.unwrap()).naive_local(),
+				timesheet.expenses.get(0).unwrap().id,
+				timesheet.expenses.get(1).unwrap().id,
 			),
 		);
 	}
