@@ -30,6 +30,5 @@ pub struct Expense
 	pub description: String,
 
 	/// The [`Id`] of the [`Timesheet`] that this [`Expense`] is associated with.
-	#[cfg_attr(feature = "serde", serde(skip))]
 	pub timesheet_id: Id,
 }
