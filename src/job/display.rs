@@ -82,7 +82,7 @@ mod tests
 				name: "Big Old Test".into(),
 				..Default::default()
 			},
-			date_close: Some(Utc::today().and_hms(23, 59, 59)),
+			date_close: Some(Utc::now().date_naive().and_hms_opt(23, 59, 59).unwrap().and_utc()),
 			date_open: Utc::now(),
 			increment: Duration::from_secs(900),
 			invoice: Invoice { date: None, hourly_rate: Money::new(20_00, 2, Currency::Usd) },

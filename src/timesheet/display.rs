@@ -122,7 +122,7 @@ mod tests
 				},
 				..Default::default()
 			},
-			time_end: Some(Utc::today().and_hms(23, 59, 59)),
+			time_end: Some(Utc::now().date_naive().and_hms_opt(23, 59, 59).unwrap().and_utc()),
 			work_notes: "Went to non-corporate fast food restaurant for business meeting".into(),
 			..Default::default()
 		};
