@@ -4,6 +4,7 @@ mod exchange;
 mod restorable_serde;
 
 use core::time::Duration;
+use std::collections::BTreeSet;
 
 use chrono::{DateTime, Utc};
 #[cfg(feature = "serde")]
@@ -32,6 +33,9 @@ pub struct Job
 	/// The [date](DateTime) upon which the [`Organization`] received the `client`'s request for
 	/// the work.
 	pub date_open: DateTime<Utc>,
+
+	/// The [departments](super::Employee) that this [`Job`] is in the scope of.
+	pub departments: BTreeSet<String>,
 
 	/// The reference number of this [`Job`], which is unique among all [`Job`]s.
 	///

@@ -24,11 +24,11 @@ impl Display for Timesheet
 			),
 		)?;
 
-		write!(formatter, "\t- Employee: {}", self.employee)?;
+		write!(formatter, "\tEmployee: {}", self.employee)?;
 
 		if !self.expenses.is_empty()
 		{
-			write!(formatter, "{NEWLINE_INDENT}- Expenses:")?;
+			write!(formatter, "{NEWLINE_INDENT}Expenses:")?;
 			self.expenses.iter().try_for_each(|e| {
 				write!(
 					formatter,
@@ -42,7 +42,7 @@ impl Display for Timesheet
 		{
 			write!(
 				formatter,
-				"{NEWLINE_INDENT}- Work Notes:{NEWLINE_TWO_INDENTS}{}",
+				"{NEWLINE_INDENT}Work Notes:{NEWLINE_TWO_INDENTS}{}",
 				self.work_notes.replace('\n', NEWLINE_TWO_INDENTS)
 			)?;
 		}
@@ -132,13 +132,13 @@ mod tests
 			timesheet.to_string(),
 			format!(
 				"{} – {}
-	- Employee: Chief Test Officer Testy McTesterson from the Executive department
-	- Expenses:
+	Employee: Chief Test Officer Testy McTesterson from the Executive department
+	Expenses:
 		№{} – Food (20.50 USD)
 			Fast Food™
 		№{} – Travel (10.00 USD)
 			Gas
-	- Work Notes:
+	Work Notes:
 		Went to non-corporate fast food restaurant for business meeting",
 				DateTime::<Local>::from(timesheet.time_begin).naive_local(),
 				DateTime::<Local>::from(timesheet.time_end.unwrap()).naive_local(),

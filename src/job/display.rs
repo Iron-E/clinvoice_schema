@@ -1,4 +1,5 @@
 use core::fmt::{Display, Formatter, Result};
+use std::borrow::Cow;
 
 use chrono::{DateTime, Local};
 
@@ -27,6 +28,18 @@ impl Display for Job
 			Some(date) => writeln!(formatter, "{}", DateTime::<Local>::from(date).naive_local()),
 			None => writeln!(formatter, "Current"),
 		}?;
+
+		if let Some(d) = self.departments.first()
+		{
+			writeln!(formatter, "\tDepartments: {}", match self.departments.len()
+			{
+				2.. =>
+				{
+					self.departments.iter().skip(1).fold(d.clone(), |s, dpt| s + ", " + dpt).into()
+				},
+				_ => Cow::from(d),
+			},)?;
+		}
 
 		// NOTE: we use `write` from here on out because it isn't certain which call will be the
 		// last
@@ -76,7 +89,7 @@ mod tests
 	{
 		let earth_view = Location { name: "Earth".into(), ..Default::default() };
 
-		let create_job_view = Job {
+		let mut create_job_view = Job {
 			client: Organization {
 				location: earth_view.clone(),
 				name: "Big Old Test".into(),
@@ -95,6 +108,26 @@ mod tests
 			create_job_view.to_string(),
 			format!(
 				"Job №{} for Big Old Test: {} – {}
+	Invoice:
+		Hourly Rate: 20.00 USD
+		Status: Not issued
+	Objectives:
+		Get into the mainframe, or something like that.
+		Clean the drawer.
+	Notes:
+		Remember not to work with these guys again!",
+				create_job_view.id,
+				DateTime::<Local>::from(create_job_view.date_open).naive_local(),
+				DateTime::<Local>::from(create_job_view.date_close.unwrap()).naive_local(),
+			),
+		);
+
+		create_job_view.departments = ["Sales", "IT"].map(ToOwned::to_owned).into_iter().collect();
+		assert_str_eq!(
+			create_job_view.to_string(),
+			format!(
+				"Job №{} for Big Old Test: {} – {}
+	Departments: IT, Sales
 	Invoice:
 		Hourly Rate: 20.00 USD
 		Status: Not issued

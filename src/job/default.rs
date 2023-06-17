@@ -10,6 +10,7 @@ impl Default for Job
 			client: Default::default(),
 			date_close: Default::default(),
 			date_open: Utc::now(),
+			departments: Default::default(),
 			id: Default::default(),
 			increment: Default::default(),
 			invoice: Default::default(),
