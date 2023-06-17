@@ -21,7 +21,7 @@ mod tests
 {
 	use chrono::{DateTime, Local, Utc};
 	use money2::{Currency, Money};
-	use pretty_assertions::assert_eq;
+	use pretty_assertions::assert_str_eq;
 
 	use super::Invoice;
 	use crate::InvoiceDate;
@@ -34,7 +34,7 @@ mod tests
 			hourly_rate: Money::new(10_00, 2, Currency::Usd),
 		};
 
-		assert_eq!(
+		assert_str_eq!(
 			invoice.to_string(),
 			format!(
 				"Hourly Rate: 10.00 USD

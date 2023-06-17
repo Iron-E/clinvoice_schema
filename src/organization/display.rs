@@ -15,7 +15,7 @@ impl Display for Organization
 #[cfg(test)]
 mod tests
 {
-	use pretty_assertions::assert_eq;
+	use pretty_assertions::assert_str_eq;
 
 	use super::Organization;
 	use crate::Location;
@@ -40,6 +40,6 @@ mod tests
 			..Default::default()
 		};
 
-		assert_eq!(organization.to_string(), "Big Old Test @ Arizona, USA, Earth");
+		assert_str_eq!(organization.to_string(), "Big Old Test @ Arizona, USA, Earth");
 	}
 }

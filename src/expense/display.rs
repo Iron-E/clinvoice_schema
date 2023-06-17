@@ -15,7 +15,7 @@ impl Display for Expense
 mod tests
 {
 	use money2::{Currency, Money};
-	use pretty_assertions::assert_eq;
+	use pretty_assertions::assert_str_eq;
 
 	use super::Expense;
 	use crate::Id;
@@ -31,7 +31,7 @@ mod tests
 			..Default::default()
 		};
 
-		assert_eq!(
+		assert_str_eq!(
 			expense.to_string(),
 			format!(
 				"№{} – Food (20.00 USD)

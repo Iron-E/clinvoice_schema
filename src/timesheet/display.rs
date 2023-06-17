@@ -24,7 +24,7 @@ impl Display for Timesheet
 			),
 		)?;
 
-		write!(formatter, "\t- Employee: {} {}", self.employee.title, self.employee.name)?;
+		write!(formatter, "\t- Employee: {}", self.employee)?;
 
 		if !self.expenses.is_empty()
 		{
@@ -58,7 +58,7 @@ mod tests
 
 	use chrono::Utc;
 	use money2::{Currency, Money};
-	use pretty_assertions::assert_eq;
+	use pretty_assertions::assert_str_eq;
 
 	use super::{DateTime, Local, Timesheet};
 	use crate::{Employee, Expense, Id, Invoice, Job, Location, Organization};
@@ -88,9 +88,10 @@ mod tests
 
 		let timesheet = Timesheet {
 			employee: Employee {
+				active: true,
+				department: "Executive".into(),
 				name: "Testy McTesterson".into(),
-				status: "Representative".into(),
-				title: "CEO of Tests".into(),
+				title: "Chief Test Officer".into(),
 				..Default::default()
 			},
 			expenses: vec![
@@ -127,11 +128,11 @@ mod tests
 			..Default::default()
 		};
 
-		assert_eq!(
+		assert_str_eq!(
 			timesheet.to_string(),
 			format!(
 				"{} – {}
-	- Employee: CEO of Tests Testy McTesterson
+	- Employee: Chief Test Officer Testy McTesterson from the Executive department
 	- Expenses:
 		№{} – Food (20.50 USD)
 			Fast Food™

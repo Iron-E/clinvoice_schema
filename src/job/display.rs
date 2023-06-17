@@ -66,7 +66,7 @@ mod tests
 
 	use chrono::Utc;
 	use money2::{Currency, Money};
-	use pretty_assertions::assert_eq;
+	use pretty_assertions::assert_str_eq;
 
 	use super::{DateTime, Job, Local};
 	use crate::{Invoice, Location, Organization};
@@ -91,7 +91,7 @@ mod tests
 			..Default::default()
 		};
 
-		assert_eq!(
+		assert_str_eq!(
 			create_job_view.to_string(),
 			format!(
 				"Job №{} for Big Old Test: {} – {}

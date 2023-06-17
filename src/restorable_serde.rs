@@ -20,9 +20,10 @@ pub trait RestorableSerde
 	/// # use pretty_assertions::{assert_eq, assert_ne};
 	///
 	/// let original = Employee {
+	///   active: true,
+	///   department: "Executive".into(),
 	///   id: Id::new_v4(), // NOTE: you normally want to avoid assigning an arbitrary ID like this
 	///   name: "Bob".into(),
-	///   status: "Employed".into(),
 	///   title: "CEO".into(),
 	/// };
 	///
@@ -33,17 +34,19 @@ pub trait RestorableSerde
 	///   ..original.clone()
 	/// };
 	///
+	/// assert_eq!(edited.active, original.active);
+	/// assert_eq!(edited.department, original.department);
+	/// assert_eq!(edited.title, original.title);
 	/// assert_ne!(edited.id, original.id);
 	/// assert_ne!(edited.name, original.name);
-	/// assert_eq!(edited.status, original.status);
-	/// assert_eq!(edited.title, original.title);
 	///
 	/// edited.try_restore(&original).unwrap();
 	///
+	/// assert_eq!(edited.active, original.active);
+	/// assert_eq!(edited.department, original.department);
 	/// assert_eq!(edited.id, original.id);
-	/// assert_ne!(edited.name, original.name);
-	/// assert_eq!(edited.status, original.status);
 	/// assert_eq!(edited.title, original.title);
+	/// assert_ne!(edited.name, original.name);
 	/// ```
 	fn try_restore(&mut self, original: &Self) -> RestoreResult<()>;
 }
