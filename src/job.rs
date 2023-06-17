@@ -10,7 +10,7 @@ use chrono::{DateTime, Utc};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
-use super::{Id, Invoice, Organization};
+use super::{Department, Id, Invoice, Organization};
 
 /// A request to complete some `objective` for some `client` [`Organization`].
 ///
@@ -35,7 +35,7 @@ pub struct Job
 	pub date_open: DateTime<Utc>,
 
 	/// The [departments](super::Employee) that this [`Job`] is in the scope of.
-	pub departments: BTreeSet<String>,
+	pub departments: BTreeSet<Department>,
 
 	/// The reference number of this [`Job`], which is unique among all [`Job`]s.
 	///

@@ -16,37 +16,36 @@ pub trait RestorableSerde
 	/// # Example
 	///
 	/// ```rust
-	/// use winvoice_schema::{Employee, Id, RestorableSerde};
+	/// use winvoice_schema::{Department, Employee, Id, RestorableSerde};
 	/// # use pretty_assertions::{assert_eq, assert_ne};
 	///
 	/// let original = Employee {
 	///   active: true,
-	///   department: "Executive".into(),
+	///   department: Department { id: Id::new_v4(), name: "Executive".into() },
 	///   id: Id::new_v4(), // NOTE: you normally want to avoid assigning an arbitrary ID like this
 	///   name: "Bob".into(),
 	///   title: "CEO".into(),
 	/// };
 	///
-	/// // Pretend this is deserialized user input…
-	/// let mut edited = Employee {
-	///   id: Id::new_v4(),
-	///   name: "Bob Buildman".into(),
-	///   ..original.clone()
-	/// };
+	/// // Pretend this is user input…
+	/// let mut edited = original.clone();
+	/// edited.department.id = Id::new_v4();
+	/// edited.id = Id::new_v4();
+	/// edited.name = "Bobber".into();
 	///
 	/// assert_eq!(edited.active, original.active);
-	/// assert_eq!(edited.department, original.department);
-	/// assert_eq!(edited.title, original.title);
+	/// assert_ne!(edited.department, original.department);
 	/// assert_ne!(edited.id, original.id);
 	/// assert_ne!(edited.name, original.name);
+	/// assert_eq!(edited.title, original.title);
 	///
 	/// edited.try_restore(&original).unwrap();
 	///
 	/// assert_eq!(edited.active, original.active);
 	/// assert_eq!(edited.department, original.department);
 	/// assert_eq!(edited.id, original.id);
-	/// assert_eq!(edited.title, original.title);
 	/// assert_ne!(edited.name, original.name);
+	/// assert_eq!(edited.title, original.title);
 	/// ```
 	fn try_restore(&mut self, original: &Self) -> RestoreResult<()>;
 }

@@ -80,6 +80,7 @@
 )]
 
 mod contact;
+mod department;
 mod employee;
 mod expense;
 mod id;
@@ -94,6 +95,7 @@ mod timesheet;
 
 pub use chrono;
 pub use contact::{Contact, ContactKind};
+pub use department::Department;
 pub use employee::Employee;
 pub use expense::Expense;
 pub use id::Id;

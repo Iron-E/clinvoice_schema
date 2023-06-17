@@ -4,7 +4,7 @@ mod restorable_serde;
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
-use super::Id;
+use super::{Department, Id};
 
 /// A person who has been employed by the [`Organization`][organization] which uses
 /// Winvoice.
@@ -23,7 +23,7 @@ pub struct Employee
 	pub active: bool,
 
 	/// The place in the company where this [`Employee`] works, e.g. "Sales", "IT"
-	pub department: String,
+	pub department: Department,
 
 	/// The reference number of this [`Employee`], which is unique among all [`Employee`]s.
 	///

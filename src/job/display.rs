@@ -35,9 +35,13 @@ impl Display for Job
 			{
 				2.. =>
 				{
-					self.departments.iter().skip(1).fold(d.clone(), |s, dpt| s + ", " + dpt).into()
+					self.departments
+						.iter()
+						.skip(1)
+						.fold(d.name.clone(), |s, dpt| s + ", " + &dpt.name)
+						.into()
 				},
-				_ => Cow::from(d),
+				_ => Cow::from(d.name.as_str()),
 			},)?;
 		}
 
@@ -82,7 +86,7 @@ mod tests
 	use pretty_assertions::assert_str_eq;
 
 	use super::{DateTime, Job, Local};
-	use crate::{Invoice, Location, Organization};
+	use crate::{Department, Invoice, Location, Organization};
 
 	#[test]
 	fn display()
@@ -122,7 +126,11 @@ mod tests
 			),
 		);
 
-		create_job_view.departments = ["Sales", "IT"].map(ToOwned::to_owned).into_iter().collect();
+		create_job_view.departments = ["Sales", "IT"]
+			.map(|s| Department { name: s.to_owned(), ..Default::default() })
+			.into_iter()
+			.collect();
+
 		assert_str_eq!(
 			create_job_view.to_string(),
 			format!(

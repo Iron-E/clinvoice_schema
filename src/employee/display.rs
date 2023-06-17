@@ -16,7 +16,7 @@ impl Display for Employee
 			},
 			self.title,
 			self.name,
-			self.department,
+			self.department.name,
 		)
 	}
 }
@@ -27,17 +27,17 @@ mod tests
 	use pretty_assertions::assert_str_eq;
 
 	use super::Employee;
-	use crate::Id;
+	use crate::Department;
 
 	#[test]
 	fn display()
 	{
 		let mut employee = Employee {
 			active: true,
-			department: "Executive".into(),
-			id: Id::default(),
+			department: Department { name: "Executive".into(), ..Default::default() },
 			name: "Testy McTesterson".into(),
 			title: "Chief Test Officer".into(),
+			..Default::default()
 		};
 
 		assert_str_eq!(

@@ -61,7 +61,7 @@ mod tests
 	use pretty_assertions::assert_str_eq;
 
 	use super::{DateTime, Local, Timesheet};
-	use crate::{Employee, Expense, Id, Invoice, Job, Location, Organization};
+	use crate::{Department, Employee, Expense, Id, Invoice, Job, Location, Organization};
 
 	#[test]
 	fn display()
@@ -89,7 +89,7 @@ mod tests
 		let timesheet = Timesheet {
 			employee: Employee {
 				active: true,
-				department: "Executive".into(),
+				department: Department { name: "Executive".into(), ..Default::default() },
 				name: "Testy McTesterson".into(),
 				title: "Chief Test Officer".into(),
 				..Default::default()
