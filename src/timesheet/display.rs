@@ -132,7 +132,7 @@ mod tests
 			timesheet.to_string(),
 			format!(
 				"{} – {}
-	Employee: Chief Test Officer Testy McTesterson from the Executive department
+	Employee: Chief Test Officer Testy McTesterson of the Executive department
 	Expenses:
 		№{} – Food (20.50 USD)
 			Fast Food™

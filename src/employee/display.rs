@@ -8,14 +8,14 @@ impl Display for Employee
 	{
 		write!(
 			formatter,
-			"{} {}{} from the {} department",
-			self.title,
-			self.name,
+			"{}{} {} of the {} department",
 			match self.active
 			{
-				false => " (inactive)",
+				false => "Ex-",
 				true => "",
 			},
+			self.title,
+			self.name,
 			self.department,
 		)
 	}
@@ -42,13 +42,13 @@ mod tests
 
 		assert_str_eq!(
 			employee.to_string(),
-			"Chief Test Officer Testy McTesterson from the Executive department",
+			"Chief Test Officer Testy McTesterson of the Executive department",
 		);
 
 		employee.active = false;
 		assert_str_eq!(
 			employee.to_string(),
-			"Chief Test Officer Testy McTesterson (inactive) from the Executive department",
+			"Ex-Chief Test Officer Testy McTesterson of the Executive department",
 		);
 	}
 }

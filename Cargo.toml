@@ -1,7 +1,7 @@
 # See https://doc.rust-lang.org/cargo/reference/manifest.html
 [package]
 name = "winvoice-schema"
-version = "0.15.0"
+version = "0.15.1"
 authors = ["Iron-E <code.iron.e@gmail.com>"]
 description = "Data structures for Winvoice."
 
