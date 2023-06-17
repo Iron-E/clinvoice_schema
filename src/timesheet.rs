@@ -3,8 +3,9 @@ mod display;
 mod exchange;
 mod restorable_serde;
 
+use std::sync::OnceLock;
+
 use chrono::{DateTime, Utc};
-use lazy_static::lazy_static;
 use money2::{Decimal, Money};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
@@ -113,9 +114,7 @@ impl Timesheet
 	/// ```
 	pub fn total_all(timesheets: &[Self], hourly_rate: Money) -> Money
 	{
-		lazy_static! {
-			static ref SECONDS_PER_HOUR: Decimal = 3600.into();
-		}
+		static SECONDS_PER_HOUR: OnceLock<Decimal> = OnceLock::new();
 
 		let mut total = Money::new(0, 0, hourly_rate.currency);
 		timesheets.iter().filter(|timesheet| timesheet.time_end.is_some()).for_each(|timesheet| {
@@ -126,7 +125,7 @@ impl Timesheet
 						.expect("Filters should have assured that `Timesheet`s have an end time")
 						.signed_duration_since(timesheet.time_begin)
 						.num_seconds(),
-				) / *SECONDS_PER_HOUR);
+				) / SECONDS_PER_HOUR.get_or_init(|| 3600.into()));
 
 			timesheet.expenses.iter().for_each(|expense| total += expense.cost);
 		});

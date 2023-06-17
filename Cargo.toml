@@ -14,7 +14,6 @@ repository = "https://www.github.com/Iron-E/winvoice-schema"
 chrono = {features = ["serde"], version = "0.4"}
 futures = "0.3"
 humantime-serde = "1"
-lazy_static = "1"
 money2 = "0.8"
 serde = {optional = true, version = "1"}
 thiserror = "1"
