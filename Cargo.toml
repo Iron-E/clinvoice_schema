@@ -1,7 +1,7 @@
 # See https://doc.rust-lang.org/cargo/reference/manifest.html
 [package]
 name = "winvoice-schema"
-version = "0.15.2"
+version = "0.16.0"
 authors = ["Iron-E <code.iron.e@gmail.com>"]
 description = "Data structures for Winvoice."
 
@@ -14,7 +14,7 @@ repository = "https://www.github.com/Iron-E/winvoice-schema"
 chrono = {features = ["serde"], version = "0.4"}
 futures = "0.3"
 humantime-serde = "1"
-money2 = "0.8"
+money2 = "1"
 serde = {optional = true, version = "1"}
 thiserror = "1"
 uuid = {features = ["v4"], version = "1"}
