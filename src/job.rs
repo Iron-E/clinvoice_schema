@@ -16,8 +16,8 @@ use super::{Department, Id, Invoice, Organization};
 ///
 /// # Notes
 ///
-/// * It is assumed that the [`Organization`] working on completing the `objective` is the same as
-///   the one using Winvoice. This is a setting, configured elsewhere and retrieved as needed.
+/// * It is assumed that the [`Organization`] working on completing the `objective` is the same as the one using
+///   Winvoice. This is a setting, configured elsewhere and retrieved as needed.
 /// * Work which is done for a [`Job`] is tracked by [`Timesheet`]s.
 #[cfg_attr(feature = "serde", derive(Deserialize, Serialize))]
 #[derive(Clone, Debug, Eq, Hash, Ord, PartialEq, PartialOrd)]

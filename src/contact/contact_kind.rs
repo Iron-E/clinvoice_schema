@@ -22,8 +22,8 @@ pub enum ContactKind
 	/// Any kind of information which is not covered by another [`ContactKind`] variant, for
 	/// example:
 	///
-	/// * A username for a social media platform (e.g. [Twitter](https://www.twitter.com)) or monetary
-	///   transfer service (e.g. [PayPal](https://www.paypal.com)).
+	/// * A username for a social media platform (e.g. [Twitter](https://www.twitter.com)) or monetary transfer service
+	///   (e.g. [PayPal](https://www.paypal.com)).
 	/// * A bank account number.
 	/// * A crypto wallet.
 	///
