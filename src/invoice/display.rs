@@ -8,11 +8,7 @@ impl Display for Invoice
 	{
 		writeln!(formatter, "Hourly Rate: {}", self.hourly_rate)?;
 
-		write!(
-			formatter,
-			"Status: {}",
-			self.date.as_ref().map_or_else(|| "Not issued".into(), InvoiceDate::to_string),
-		)
+		write!(formatter, "Status: {}", self.date.as_ref().map_or_else(|| "Not issued".into(), InvoiceDate::to_string),)
 	}
 }
 

@@ -35,11 +35,7 @@ impl Display for Job
 			{
 				2.. =>
 				{
-					self.departments
-						.iter()
-						.skip(1)
-						.fold(d.name.clone(), |s, dpt| s + ", " + &dpt.name)
-						.into()
+					self.departments.iter().skip(1).fold(d.name.clone(), |s, dpt| s + ", " + &dpt.name).into()
 				},
 				_ => Cow::from(d.name.as_str()),
 			},)?;
@@ -94,11 +90,7 @@ mod tests
 		let earth_view = Location { name: "Earth".into(), ..Default::default() };
 
 		let mut create_job_view = Job {
-			client: Organization {
-				location: earth_view.clone(),
-				name: "Big Old Test".into(),
-				..Default::default()
-			},
+			client: Organization { location: earth_view.clone(), name: "Big Old Test".into(), ..Default::default() },
 			date_close: Some(Utc::now().date_naive().and_hms_opt(23, 59, 59).unwrap().and_utc()),
 			date_open: Utc::now(),
 			increment: Duration::from_secs(900),
@@ -126,10 +118,8 @@ mod tests
 			),
 		);
 
-		create_job_view.departments = ["Sales", "IT"]
-			.map(|s| Department { name: s.to_owned(), ..Default::default() })
-			.into_iter()
-			.collect();
+		create_job_view.departments =
+			["Sales", "IT"].map(|s| Department { name: s.to_owned(), ..Default::default() }).into_iter().collect();
 
 		assert_str_eq!(
 			create_job_view.to_string(),

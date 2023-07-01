@@ -9,10 +9,7 @@ impl RestorableSerde for Contact
 		{
 			match original.kind
 			{
-				ContactKind::Address(ref original_location) =>
-				{
-					location.try_restore(original_location)?
-				},
+				ContactKind::Address(ref original_location) => location.try_restore(original_location)?,
 				_ => return Err(RestoreError),
 			}
 		}

@@ -56,8 +56,6 @@ where
 {
 	fn try_restore(&mut self, original: &Self) -> RestoreResult<()>
 	{
-		self.iter_mut()
-			.zip(original)
-			.try_for_each(|(edited, original)| edited.try_restore(original))
+		self.iter_mut().zip(original).try_for_each(|(edited, original)| edited.try_restore(original))
 	}
 }

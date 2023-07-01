@@ -40,15 +40,9 @@ mod tests
 			..Default::default()
 		};
 
-		assert_str_eq!(
-			employee.to_string(),
-			"Chief Test Officer Testy McTesterson of the Executive department",
-		);
+		assert_str_eq!(employee.to_string(), "Chief Test Officer Testy McTesterson of the Executive department",);
 
 		employee.active = false;
-		assert_str_eq!(
-			employee.to_string(),
-			"Ex-Chief Test Officer Testy McTesterson of the Executive department",
-		);
+		assert_str_eq!(employee.to_string(), "Ex-Chief Test Officer Testy McTesterson of the Executive department",);
 	}
 }

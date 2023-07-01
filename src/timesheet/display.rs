@@ -18,10 +18,8 @@ impl Display for Timesheet
 			formatter,
 			"{} – {}",
 			DateTime::<Local>::from(self.time_begin).naive_local(),
-			self.time_end.map_or_else(
-				|| "Current".into(),
-				|time| DateTime::<Local>::from(time).naive_local().to_string(),
-			),
+			self.time_end
+				.map_or_else(|| "Current".into(), |time| DateTime::<Local>::from(time).naive_local().to_string(),),
 		)?;
 
 		write!(formatter, "\tEmployee: {}", self.employee)?;
@@ -30,11 +28,7 @@ impl Display for Timesheet
 		{
 			write!(formatter, "{NEWLINE_INDENT}Expenses:")?;
 			self.expenses.iter().try_for_each(|e| {
-				write!(
-					formatter,
-					"{NEWLINE_TWO_INDENTS}{}",
-					e.to_string().replace('\n', NEWLINE_TWO_INDENTS)
-				)
+				write!(formatter, "{NEWLINE_TWO_INDENTS}{}", e.to_string().replace('\n', NEWLINE_TWO_INDENTS))
 			})?;
 		}
 
@@ -68,23 +62,14 @@ mod tests
 	{
 		let earth_view = Location { name: "Earth".into(), ..Default::default() };
 
-		let usa_view =
-			Location { name: "USA".into(), outer: Some(earth_view.into()), ..Default::default() };
+		let usa_view = Location { name: "USA".into(), outer: Some(earth_view.into()), ..Default::default() };
 
-		let arizona_view =
-			Location { name: "Arizona".into(), outer: Some(usa_view.into()), ..Default::default() };
+		let arizona_view = Location { name: "Arizona".into(), outer: Some(usa_view.into()), ..Default::default() };
 
-		let phoenix_view = Location {
-			name: "Phoenix".into(),
-			outer: Some(arizona_view.into()),
-			..Default::default()
-		};
+		let phoenix_view = Location { name: "Phoenix".into(), outer: Some(arizona_view.into()), ..Default::default() };
 
-		let street_view = Location {
-			name: "1337 Some Street".into(),
-			outer: Some(phoenix_view.into()),
-			..Default::default()
-		};
+		let street_view =
+			Location { name: "1337 Some Street".into(), outer: Some(phoenix_view.into()), ..Default::default() };
 
 		let timesheet = Timesheet {
 			employee: Employee {
@@ -117,10 +102,7 @@ mod tests
 					..Default::default()
 				},
 				increment: Duration::new(900, 0),
-				invoice: Invoice {
-					hourly_rate: Money::new(13_00, 2, Currency::Usd),
-					..Default::default()
-				},
+				invoice: Invoice { hourly_rate: Money::new(13_00, 2, Currency::Usd), ..Default::default() },
 				..Default::default()
 			},
 			time_end: Some(Utc::now().date_naive().and_hms_opt(23, 59, 59).unwrap().and_utc()),

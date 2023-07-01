@@ -36,8 +36,7 @@ impl Location
 	/// specified.
 	pub fn currency(&self) -> Currency
 	{
-		self.currency
-			.unwrap_or_else(|| self.outer.as_ref().map_or_else(Default::default, |o| o.currency()))
+		self.currency.unwrap_or_else(|| self.outer.as_ref().map_or_else(Default::default, |o| o.currency()))
 	}
 }
 
@@ -57,11 +56,7 @@ mod tests
 		assert_eq!(earth.currency(), Currency::default());
 
 		let usd = Currency::Usd;
-		let usa = Location {
-			currency: usd.into(),
-			outer: Some(earth.clone().into()),
-			..Default::default()
-		};
+		let usa = Location { currency: usd.into(), outer: Some(earth.clone().into()), ..Default::default() };
 
 		assert_eq!(usa.currency(), usd);
 
@@ -70,18 +65,11 @@ mod tests
 		// assert inherits outer currency
 		assert_eq!(arizona.currency(), usa.currency());
 
-		let europe = Location {
-			currency: Currency::Eur.into(),
-			outer: Some(earth.clone().into()),
-			..Default::default()
-		};
+		let europe =
+			Location { currency: Currency::Eur.into(), outer: Some(earth.clone().into()), ..Default::default() };
 
 		let gbp = Currency::Gbp;
-		let britain = Location {
-			currency: gbp.into(),
-			outer: Some(europe.clone().into()),
-			..Default::default()
-		};
+		let britain = Location { currency: gbp.into(), outer: Some(europe.clone().into()), ..Default::default() };
 
 		// assert overrides outer currency
 		assert_eq!(britain.currency(), gbp);

@@ -34,10 +34,7 @@ mod tests
 
 		let other_date = InvoiceDate { issued: Utc::now(), paid: Some(Utc::now()) };
 
-		assert_str_eq!(
-			date.to_string(),
-			format!("Issued on {}; Outstanding", DateTime::<Local>::from(date.issued),)
-		);
+		assert_str_eq!(date.to_string(), format!("Issued on {}; Outstanding", DateTime::<Local>::from(date.issued),));
 		assert_str_eq!(
 			other_date.to_string(),
 			format!(
