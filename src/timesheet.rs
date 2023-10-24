@@ -11,6 +11,7 @@ use money2::{Decimal, Money};
 use serde::{Deserialize, Serialize};
 
 use super::{Employee, Expense, Id, Job};
+use crate::{DateTimeExt, IncrementResult};
 
 /// A [`Timesheet`] contains information about continuous periods of work on a [`Job`].
 ///
@@ -51,6 +52,13 @@ pub struct Timesheet
 
 impl Timesheet
 {
+	/// Increment the `time_begin` and `time_begin` according to the `job`'s `increment` field. If
+	/// the `time_end` is undefined, it will default to the `time_begin`.
+	pub fn increment(&self) -> IncrementResult<(DateTime<Utc>, DateTime<Utc>)>
+	{
+		self.time_begin.increment_with(self.time_end.unwrap_or(self.time_begin), self.job.increment)
+	}
+
 	/// Get the amount of [`Money`] which is owed by the [client](crate::Organization) for work done
 	/// on this [`Timesheet`].
 	///
@@ -64,13 +72,16 @@ impl Timesheet
 	/// # Examples
 	///
 	/// ```rust
-	/// use winvoice_schema::{chrono::Utc, Currency, Expense, Money, Timesheet};
+	/// use core::time::Duration;
+	/// use winvoice_schema::{chrono::Utc, Currency, Expense, Job, Money, Timesheet};
 	/// # use pretty_assertions::assert_eq;
 	///
+	/// let job = Job {increment: Duration::from_secs(1800), ..Default::default()};
 	/// let timesheets = [
 	///   Timesheet {
-	///     time_begin: Utc::today().and_hms(2, 0, 0),
-	///     time_end: Some(Utc::today().and_hms(2, 30, 0)),
+	///     time_begin: Utc::today().and_hms_opt(2, 0, 0).unwrap(),
+	///     time_end: Some(Utc::today().and_hms_opt(2, 22, 0).unwrap()),
+	///     job: job.clone(),
 	///     ..Default::default()
 	///   },
 	///   Timesheet {
@@ -78,14 +89,15 @@ impl Timesheet
 	///       cost: Money::new(20_00, 2, Currency::Usd),
 	///       ..Default::default()
 	///     }],
-	///     time_begin: Utc::today().and_hms(3, 0, 0),
-	///     time_end: Some(Utc::today().and_hms(3, 30, 0)),
+	///     time_begin: Utc::today().and_hms_opt(3, 0, 0).unwrap(),
+	///     time_end: Some(Utc::today().and_hms_opt(3, 30, 0).unwrap()),
+	///     job: job.clone(),
 	///     ..Default::default()
 	///   },
 	/// ];
 	///
 	/// assert_eq!(
-	///   Timesheet::total_all(&timesheets, Money::new(20_00, 2, Currency::Usd)),
+	///   Timesheet::total_all(&timesheets, Money::new(20_00, 2, Currency::Usd)).unwrap(),
 	///   Money::new(4000, 2, Currency::Usd),
 	/// );
 	/// ```
@@ -96,8 +108,8 @@ impl Timesheet
 	/// #
 	/// # let timesheets = [
 	/// #   Timesheet {
-	/// #     time_begin: Utc::today().and_hms(2, 0, 0),
-	/// #     time_end: Some(Utc::today().and_hms(2, 30, 0)),
+	/// #     time_begin: Utc::today().and_hms_opt(2, 0, 0).unwrap(),
+	/// #     time_end: Some(Utc::today().and_hms_opt(2, 30, 0).unwrap()),
 	/// #     ..Default::default()
 	/// #   },
 	/// #   Timesheet {
@@ -105,32 +117,29 @@ impl Timesheet
 	/// #       cost: Money::new(20_00, 2, Currency::Usd),
 	/// #       ..Default::default()
 	/// #     }],
-	/// #     time_begin: Utc::today().and_hms(3, 0, 0),
-	/// #     time_end: Some(Utc::today().and_hms(3, 30, 0)),
+	/// #     time_begin: Utc::today().and_hms_opt(3, 0, 0).unwrap(),
+	/// #     time_end: Some(Utc::today().and_hms_opt(3, 30, 0).unwrap()),
 	/// #     ..Default::default()
 	/// #   },
 	/// # ];
 	/// let _ = Timesheet::total_all(&timesheets, Money::new(20_00, 2, Currency::Eur));
 	/// ```
-	pub fn total_all(timesheets: &[Self], hourly_rate: Money) -> Money
+	pub fn total_all(timesheets: &[Self], hourly_rate: Money) -> IncrementResult<Money>
 	{
 		static SECONDS_PER_HOUR: OnceLock<Decimal> = OnceLock::new();
 
 		let mut total = Money::new(0, 0, hourly_rate.currency);
-		timesheets.iter().filter(|timesheet| timesheet.time_end.is_some()).for_each(|timesheet| {
+		timesheets.iter().filter(|timesheet| timesheet.time_end.is_some()).try_for_each(|timesheet| {
+			let (start, end) = timesheet.increment()?;
 			total.amount += hourly_rate.amount *
-				(Decimal::from(
-					timesheet
-						.time_end
-						.expect("Filters should have assured that `Timesheet`s have an end time")
-						.signed_duration_since(timesheet.time_begin)
-						.num_seconds(),
-				) / SECONDS_PER_HOUR.get_or_init(|| 3600.into()));
+				(Decimal::from(end.signed_duration_since(start).num_seconds()) /
+					SECONDS_PER_HOUR.get_or_init(|| 3600.into()));
 
 			timesheet.expenses.iter().for_each(|expense| total += expense.cost);
-		});
+			IncrementResult::Ok(())
+		})?;
 
 		total.amount.rescale(2);
-		total
+		Ok(total)
 	}
 }

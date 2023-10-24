@@ -80,6 +80,7 @@
 )]
 
 mod contact;
+mod datetime_ext;
 mod department;
 mod employee;
 mod expense;
@@ -95,6 +96,7 @@ mod timesheet;
 
 pub use chrono;
 pub use contact::{Contact, ContactKind};
+pub use datetime_ext::{DateTimeExt, IncrementError, IncrementResult};
 pub use department::Department;
 pub use employee::Employee;
 pub use expense::Expense;
