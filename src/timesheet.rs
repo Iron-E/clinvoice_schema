@@ -129,7 +129,7 @@ impl Timesheet
 		static SECONDS_PER_HOUR: OnceLock<Decimal> = OnceLock::new();
 
 		let mut total = Money::new(0, 0, hourly_rate.currency);
-		timesheets.iter().filter(|timesheet| timesheet.time_end.is_some()).try_for_each(|timesheet| {
+		timesheets.iter().try_for_each(|timesheet| {
 			let (start, end) = timesheet.increment()?;
 			total.amount += hourly_rate.amount *
 				(Decimal::from(end.signed_duration_since(start).num_seconds()) /
