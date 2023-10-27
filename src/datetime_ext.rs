@@ -27,7 +27,7 @@ where
 		}
 
 		let duration = Duration::from_std(increment)?;
-		let start = self.duration_trunc(duration)?;
+		let start = self.duration_round(duration)?;
 		match end.duration_round(duration)
 		{
 			Ok(d) if d == start => Ok((start, start + duration)),
