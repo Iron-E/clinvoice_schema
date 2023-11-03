@@ -1,7 +1,10 @@
-//! This crate provides definitions for the information which is managed by Winvoice. The data is
-//! represented as it would be after all `JOIN`s are performed on a database (e.g. an
-//! [`Organization`] in a database would likely reference [`Location`] by [`Id`], rather than
-//! aggregating it).
+//! This crate provides definitions for the information which is managed by Winvoice:
+//!
+//! * **Contact** information,
+//! * **employees** and their **departments**,
+//! * **jobs** and **invoices**,
+//! * **organizations** and their respective **locations** around the world, and
+//! * **timesheets** and related **expenses**.
 //!
 //! # Features
 //!
