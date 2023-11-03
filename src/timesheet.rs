@@ -6,7 +6,7 @@ mod restorable_serde;
 use std::sync::OnceLock;
 
 use chrono::{DateTime, Utc};
-use money2::{Decimal, Money};
+use money2::{Currency, Decimal, Exchange, ExchangeRates, Money};
 #[cfg(feature = "serde")]
 use serde::{Deserialize, Serialize};
 
@@ -52,6 +52,37 @@ pub struct Timesheet
 
 impl Timesheet
 {
+	/// [`Exchange`] this [`Timesheet`] into another [`Currency`] while ensuring that the operation accounts for the
+	/// differing dates involved in the operation:
+	///
+	/// * The `rates_when_timesheet_began`, and
+	/// * the `rates_when_job_opened`.
+	pub fn exchange_historically(
+		mut self,
+		currency: Currency,
+		rates_when_timesheet_began: &ExchangeRates,
+		rates_when_job_opened: &ExchangeRates,
+	) -> Self
+	{
+		self.exchange_mut_historically(currency, rates_when_timesheet_began, rates_when_job_opened);
+		self
+	}
+	/// [`Exchange`] this [`Timesheet`] into another [`Currency`] while ensuring that the operation accounts for the
+	/// differing dates involved in the operation:
+	///
+	/// * The `rates_when_timesheet_began`, and
+	/// * the `rates_when_job_opened`.
+	pub fn exchange_mut_historically(
+		&mut self,
+		currency: Currency,
+		rates_when_timesheet_began: &ExchangeRates,
+		rates_when_job_opened: &ExchangeRates,
+	)
+	{
+		self.expenses.exchange_mut(currency, rates_when_timesheet_began);
+		self.job.exchange_mut(currency, rates_when_job_opened);
+	}
+
 	/// Increment the `time_begin` and `time_begin` according to the `job`'s `increment` field. If
 	/// the `time_end` is undefined, it will default to the `time_begin`.
 	pub fn increment(&self) -> IncrementResult<(DateTime<Utc>, DateTime<Utc>)>
