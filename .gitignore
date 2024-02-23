@@ -152,3 +152,7 @@ dist
 
 # SvelteKit build / generate output
 .svelte-kit
+
+# this is a typescript project
+**/*.js
+**/*.mjs
