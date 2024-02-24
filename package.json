@@ -1,12 +1,17 @@
 {
-	"devDependencies": {
-		"@dagger.io/dagger": "^0.9.11"
-	},
 	"dependencies": {
-		"ts-node": "^10.9.2",
-		"typescript": "^5.3.3"
+		"tsx": "^4.7.1"
 	},
-	"scripts": {
-		"dagger": "dagger run node --loader ts-node/esm"
-	}
+	"devDependencies": {
+		"@dagger.io/dagger": "^0.9.11",
+		"@iron-e/scabbard": "github:Iron-E/scabbard"
+	},
+	"engines": {
+		"node": ">=21"
+	},
+	"files": [
+		"ci/"
+	],
+	"main": "ci/index.ts",
+	"type": "module"
 }
