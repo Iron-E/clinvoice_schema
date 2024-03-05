@@ -1,12 +1,13 @@
 import './scope';
 import { Container } from '@dagger.io/dagger';
-import { enqueue, inject } from '@iron-e/scabbard';
+import { enqueue } from '@iron-e/scabbard';
+import { WITH_CARGO_HACK } from '@iron-e/scabbard/rust/scope/client';
 
-enqueue('build', async _ => {
-	const withCargo = inject('withCargo').instance(Container);
+enqueue('build', async (_, inject) => {
+	const withCargo = (await inject(WITH_CARGO_HACK)).instance(Container);
 	const output = await withCargo
 		.pipeline('run')
-		.withExec(["cargo", "hack", "--feature-powerset", "build"])
+		.withExec(['cargo', 'hack', '--feature-powerset', 'build'])
 		.stdout();
 
 	console.log(output);
