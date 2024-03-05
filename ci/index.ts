@@ -1,5 +1,6 @@
 // register pipelines
-export * from './test';
+import './build';
+import './test';
 
 // run pipelines
-import.meta.filename.runPipelinesIfMain();
+await import.meta.filename.runPipelinesIfMain();
